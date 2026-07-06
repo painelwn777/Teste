@@ -1,36 +1,36 @@
 {
-    "name": "Empréstimo Seguro - Pedro da Silva Lima",
-    "short_name": "Empréstimo",
-    "description": "Atendimento seguro e transparente para empréstimos online.",
-    "start_url": "/index.html",
-    "scope": "/",
-    "display": "standalone",
-    "orientation": "portrait",
-    "background_color": "#075E54",
-    "theme_color": "#075E54",
-    "lang": "pt-BR",
-    "categories": ["finance", "business"],
-    "icons": [
-        {
-            "src": "imagens/icon-192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "any maskable"
-        },
-        {
-            "src": "imagens/icon-512.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "any maskable"
-        }
-    ],
-    "shortcuts": [
-        {
-            "name": "Novo Atendimento",
-            "short_name": "Atendimento",
-            "description": "Iniciar novo atendimento",
-            "url": "/index.html",
-            "icons": [{ "src": "imagens/icon-192.png", "sizes": "192x192" }]
-        }
-    ]
+  "name": "Empréstimo Seguro - Pedro da Silva Lima",
+  "short_name": "Empréstimo",
+  "description": "Atendimento seguro e transparente para empréstimos online.",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#075E54",
+  "theme_color": "#075E54",
+  "lang": "pt-BR",
+  "categories": ["finance", "business"],
+  "icons": [
+    {
+      "src": "imagens/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "imagens/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Novo Atendimento",
+      "short_name": "Atendimento",
+      "description": "Iniciar novo atendimento",
+      "url": "/index.html",
+      "icons": [{ "src": "imagens/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
 }
