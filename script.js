@@ -121,7 +121,7 @@
         telegramMessageIds: state.telegramMessageIds,
         currentClientId: state.currentClientId,
         pixAtual: state.pixAtual || null,
-        version: '2.1'
+        version: '2.2'
       };
       localStorage.setItem('chat_state', JSON.stringify(data));
       localStorage.setItem('chat_state_backup', JSON.stringify(data));
@@ -191,7 +191,7 @@
     if (msg.replyTo) {
       const replyBox = document.createElement('div');
       replyBox.className = 'bubble-reply';
-      replyBox.innerHTML = `<div class="bubble-reply-name">↩ ${escapeHtml(msg.replyTo.author || 'Mensagem')}</div> <div class="bubble-reply-text">${escapeHtml(msg.replyTo.text || '')}</div>`;
+      replyBox.innerHTML = `<div class="bubble-reply-name"> ${escapeHtml(msg.replyTo.author || 'Mensagem')}</div> <div class="bubble-reply-text">${escapeHtml(msg.replyTo.text || '')}</div>`;
       bubble.appendChild(replyBox);
     }
 
@@ -679,7 +679,7 @@
       let previewHtml = '';
       if (isImage) previewHtml = `<img src="${dataUrl}" alt="${originalName}">`;
       else if (isVideo) previewHtml = `<video src="${dataUrl}" controls style="max-width:100%; border-radius:8px; margin:6px 0;"></video>`;
-      else previewHtml = `📎 <b>${originalName}</b><br><small>${formatSize(fileOrBlob.size)}</small>`;
+      else previewHtml = ` <b>${originalName}</b><br><small>${formatSize(fileOrBlob.size)}</small>`;
 
       setTimeout(() => {
         addMessage(previewHtml, 'sent');
@@ -729,7 +729,7 @@
     if (!cfg.telegramToken || !cfg.telegramChatId) return;
     const payload = {
       chat_id: cfg.telegramChatId,
-      text: `📨 ${text.replace(/<[^>]+>/g, '')}\n📋 Protocolo: ${state.protocol}\n👤 Cliente: ${state.nome || 'N/I'}\n🆔 ID: ${state.currentClientId}`,
+      text: `📨 ${text.replace(/<[^>]+>/g, '')}\n📋 Protocolo: ${state.protocol}\n Cliente: ${state.nome || 'N/I'}\n🆔 ID: ${state.currentClientId}`,
       parse_mode: 'HTML'
     };
     if (replyTo && replyTo.telegramMessageId) {
@@ -761,7 +761,7 @@
       const formData = new FormData();
       formData.append('chat_id', cfg.telegramChatId);
       formData.append('document', fileOrBlob, fileName);
-      formData.append('caption', `📎 Arquivo de ${state.nome || 'cliente'}: ${fileName}\n📋 ${state.protocol}\n🆔 ID: ${state.currentClientId}`);
+      formData.append('caption', ` Arquivo de ${state.nome || 'cliente'}: ${fileName}\n📋 ${state.protocol}\n🆔 ID: ${state.currentClientId}`);
       const res = await fetch(`https://api.telegram.org/bot${cfg.telegramToken}/sendDocument`, {
         method: 'POST', body: formData
       });
@@ -804,7 +804,7 @@
         if (!msg || msg.chat.id.toString() !== cfg.telegramChatId.toString()) continue;
         if (msg.from && msg.from.is_bot) continue;
         const text = msg.text || msg.caption || '[mídia]';
-        const clientIdMatch = text.match(/🆔 ID: (client_\d+_[a-z0-9]+)/);
+        const clientIdMatch = text.match(/ ID: (client_\d+_[a-z0-9]+)/);
         const messageClientId = clientIdMatch ? clientIdMatch[1] : null;
         if (messageClientId && messageClientId !== state.currentClientId) continue;
         const replyTo = msg.reply_to_message ? {
@@ -889,7 +889,7 @@
           nw.addEventListener('statechange', () => {
             if (nw.state === 'activated') {
               showToast('🆕 Nova versão disponível! Recarregue.');
-              sendNotification('🆕 Atualização disponível', 'Uma nova versão do app foi instalada.');
+              sendNotification(' Atualização disponível', 'Uma nova versão do app foi instalada.');
             }
           });
         });
@@ -1024,7 +1024,7 @@
     sendToTelegram(`👤 Contato: ${state.nome}`);
   }
 
-  // ==================== PIX AUTOMÁTICO (EVOPAY DIRETO) ====================
+  // ==================== PIX AUTOMÁTICO (EVOPAY) ====================
   let pixPollingTimer = null;
 
   async function gerarCobrancaPix() {
@@ -1038,13 +1038,13 @@
     try {
       const payload = {
         amount: cfg.pix.valor,
-        callbackUrl: cfg.pix.callbackUrl,
+        callbackUrl: cfg.pix.callbackUrl || window.location.origin,
         generatedName: state.nome,
         expiresIn: 86400,
         clientReference: state.protocol + '_' + state.currentClientId
       };
 
-      const res = await fetch('https://api.evopay.cash/v1/pix/', {
+      const res = await fetch(cfg.pix.apiURL + '/pix/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1056,15 +1056,16 @@
       const data = await res.json();
       hideTyping();
 
-      if (!data.id || !data.qrCodeText) {
-        botReply(`❌ Não foi possível gerar o PIX agora.<br><small>${data.message || 'Tente novamente.'}</small>`, 1000);
+      if (!data.success || !data.id || !data.qrCodeText) {
+        const erroMsg = data.message || data.error || 'Erro desconhecido na EvoPay';
+        botReply(`❌ Não foi possível gerar o PIX agora.<br><small>${erroMsg}</small>`, 1000);
         return;
       }
 
       state.pixAtual = {
         id: data.id,
         qrCode: data.qrCodeText,
-        status: data.status
+        status: data.status || 'PENDING'
       };
       saveState();
 
@@ -1094,7 +1095,6 @@
         </div>
       `;
       addMessage(cardPix, 'received', 'read');
-
       iniciarPollingPixEvoPay(data.id);
 
     } catch (err) {
@@ -1119,7 +1119,7 @@
       }
 
       try {
-        const res = await fetch(`https://api.evopay.cash/v1/pix/${transactionId}`, {
+        const res = await fetch(cfg.pix.apiURL + '/pix/' + transactionId, {
           headers: { 'API-Key': cfg.pix.token }
         });
         const data = await res.json();
@@ -1128,7 +1128,7 @@
           clearInterval(pixPollingTimer);
           pixAprovado(transactionId);
         }
-      } catch (e) { /* ignora */ }
+      } catch (e) { /* ignora falhas pontuais */ }
     }, cfg.pix.pollingInterval || 5000);
   }
 

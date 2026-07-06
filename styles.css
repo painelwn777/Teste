@@ -464,7 +464,7 @@ body.dark .date-separator span { background: #182229; }
 }
 
 /* ============================================================
-CARD PIX AUTOMÁTICO (EVOPAY)
+CARD PIX AUTOMÁTICO (EVOPAY) - ADICIONAR NO FINAL
 ============================================================ */
 .pix-card {
   background: linear-gradient(135deg, #f8fffe 0%, #e8f5f0 100%);

