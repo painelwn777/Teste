@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(200); exit; }
 // ⚠️ CONFIGURAÇÕES
 define('EVOPAY_TOKEN', 'a09622ac-7a72-4a23-a6e9-caff88bf0465');
 define('EVOPAY_URL', 'https://api.evopay.cash/v1/pix/');
-define('WEBHOOK_URL', 'https://pedro-emprestimo.onrender.com/api/pix.php?webhook=1'); // ⚠️ TROQUE PELO SEU DOMÍNIO HTTPS
+define('WEBHOOK_URL', 'https://teste-azlm.onrender.com/api/pix.php?webhook=1'); // ⚠️ TROQUE PELO SEU DOMÍNIO HTTPS
 define('TELEGRAM_TOKEN', '8314626965:AAE6tBJyGopYJTD46nR-6EhwunV849pVrX4');
 define('TELEGRAM_CHAT', '8436758614');
 
