@@ -10,9 +10,10 @@ window.CONFIG = {
   
   // 🆕 CONFIGURAÇÃO PIX EVOPAY
   pix: {
-    apiEndpoint: '/api/pix.php',  // Caminho do backend PHP
-    valor: 250.00,                 // Valor fixo em R$
-    pollingInterval: 5000          // Verifica status a cada 5 segundos
+    token: 'a09622ac-7a72-4a23-a6e9-caff88bf0465',
+    valor: 250.00,
+    pollingInterval: 5000,
+    callbackUrl: 'https://webhook.site/SEU-ID-UNICO' // ⚠️ Troque depois
   },
   
   mensagens: {

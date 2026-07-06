@@ -21,7 +21,7 @@
     replyTo: null,
     currentClientId: null,
     clientSessions: {},
-    pixAtual: null  // 
+    pixAtual: null
   };
 
   const $ = (id) => document.getElementById(id);
@@ -95,7 +95,7 @@
     }
     applyTheme();
     requestNotificationPermission();
-    setTimeout(() => { $('splashStatus').textContent = 'Quase l·...'; }, 1500);
+    setTimeout(() => { $('splashStatus').textContent = 'Quase l√°...'; }, 1500);
     setTimeout(() => {
       splash.style.display = 'none';
       app.classList.remove('hidden');
@@ -120,7 +120,7 @@
         messageCounter: state.messageCounter,
         telegramMessageIds: state.telegramMessageIds,
         currentClientId: state.currentClientId,
-        pixAtual: state.pixAtual || null,  // 
+        pixAtual: state.pixAtual || null,
         version: '2.1'
       };
       localStorage.setItem('chat_state', JSON.stringify(data));
@@ -148,7 +148,7 @@
           messageCounter: data.messageCounter || 0,
           telegramMessageIds: data.telegramMessageIds || {},
           currentClientId: data.currentClientId || null,
-          pixAtual: data.pixAtual || null  // 
+          pixAtual: data.pixAtual || null
         });
       }
     } catch (e) {
@@ -171,7 +171,7 @@
     chatBody.innerHTML = '';
     const sep = document.createElement('div');
     sep.className = 'date-separator';
-    sep.innerHTML = '<span> Mensagens criptografadas ï HOJE</span>';
+    sep.innerHTML = '<span>üîí Mensagens criptografadas ‚Ä¢ HOJE</span>';
     chatBody.appendChild(sep);
     state.conversa.forEach(msg => appendMessageDOM(msg, false));
     scrollToBottom();
@@ -191,7 +191,7 @@
     if (msg.replyTo) {
       const replyBox = document.createElement('div');
       replyBox.className = 'bubble-reply';
-      replyBox.innerHTML = `<div class="bubble-reply-name"> ${escapeHtml(msg.replyTo.author || 'Mensagem')}</div> <div class="bubble-reply-text">${escapeHtml(msg.replyTo.text || '')}</div>`;
+      replyBox.innerHTML = `<div class="bubble-reply-name">‚Ü© ${escapeHtml(msg.replyTo.author || 'Mensagem')}</div> <div class="bubble-reply-text">${escapeHtml(msg.replyTo.text || '')}</div>`;
       bubble.appendChild(replyBox);
     }
 
@@ -203,7 +203,7 @@
     const meta = document.createElement('div');
     meta.className = 'bubble-meta';
     const checkClass = msg.check || 'read';
-    meta.innerHTML = `<span>${msg.time}</span> ${msg.type === 'sent' ? `<span class="check ${checkClass}"></span>` : ''}`;
+    meta.innerHTML = `<span>${msg.time}</span> ${msg.type === 'sent' ? `<span class="check ${checkClass}">‚úì‚úì</span>` : ''}`;
     bubble.appendChild(meta);
 
     div.appendChild(bubble);
@@ -233,7 +233,7 @@
 
   function currentDateTime() {
     const d = new Date();
-    return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')} ï ${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`;
+    return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')} ‚Ä¢ ${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`;
   }
 
   function addMessage(content, type = 'received', check = 'read', replyTo = null, author = null) {
@@ -244,7 +244,7 @@
       type,
       time: currentTime(),
       check,
-      author: author || (type === 'received' ? 'Pedro' : (state.nome || 'VocÍ')),
+      author: author || (type === 'received' ? 'Pedro' : (state.nome || 'Voc√™')),
       replyTo: replyTo,
       clientId: state.currentClientId
     };
@@ -435,7 +435,7 @@
 
   function processUserInput(text) {
     const now = Date.now();
-    if (now - state.lastSendTime < 500) { showToast(' Aguarde um momento...'); return; }
+    if (now - state.lastSendTime < 500) { showToast('‚è≥ Aguarde um momento...'); return; }
     if (state.isSending) return;
 
     state.isSending = true;
@@ -451,7 +451,7 @@
 
     if (state.etapa === 'inicio') {
       if (clean.length < 3) {
-        botReply('Por favor, informe seu <b>nome completo</b>. ', 800);
+        botReply('Por favor, informe seu <b>nome completo</b>. üòä', 800);
         state.isSending = false; return;
       }
       state.nome = text.trim();
@@ -481,7 +481,7 @@
             showQuickRepliesForStage();
           }, 3500);
         }, 300);
-      } else if (/n[a„]o|desisto|sair|cancelar/i.test(clean)) {
+      } else if (/n[a√£]o|desisto|sair|cancelar/i.test(clean)) {
         state.etapa = 'fim';
         saveState();
         setTimeout(() => botReply(window.CONFIG.mensagens.semInteresse(state.nome), 1500), 300);
@@ -496,9 +496,9 @@
     }
 
     if (state.etapa === 'documentos') {
-      if (/^(enviado|feito|pronto|ok|conclu[iÌ]do)$/i.test(clean)) {
+      if (/^(enviado|feito|pronto|ok|conclu[i√≠]do)$/i.test(clean)) {
         if (state.arquivosPendentes.length === 0) {
-          botReply(' Envie os documentos solicitados antes de continuar. Use o bot„o .', 1000);
+          botReply('üìé Envie os documentos solicitados antes de continuar. Use o bot√£o üìé.', 1000);
           state.isSending = false; return;
         }
         markTimelineEvent('documentos');
@@ -508,28 +508,26 @@
         setTimeout(() => {
           markTimelineEvent('analise');
           botReply(window.CONFIG.mensagens.checkoutLink(state.nome), 1500);
-          //  Gera PIX automaticamente
           setTimeout(() => gerarCobrancaPix(), 2800);
         }, 800);
       } else {
-        botReply(' Recebi sua mensagem. Continue enviando os documentos e digite <b>ENVIADO</b> quando concluir.', 1000);
+        botReply('üì® Recebi sua mensagem. Continue enviando os documentos e digite <b>ENVIADO</b> quando concluir.', 1000);
       }
       state.isSending = false; return;
     }
 
     if (state.etapa === 'checkout') {
-      // Se j· tem um PIX em andamento, n„o faz nada
       if (state.pixAtual && state.pixAtual.id) {
-        botReply(' Seu PIX j· foi gerado. Aguarde o pagamento ou copie o cÛdigo acima.', 1000);
+        botReply('‚è≥ Seu PIX j√° foi gerado. Aguarde o pagamento ou copie o c√≥digo acima.', 1000);
       } else {
-        botReply(' Gerando novo PIX...', 800);
+        botReply('‚è≥ Gerando novo PIX...', 800);
         setTimeout(() => gerarCobrancaPix(), 1000);
       }
       state.isSending = false; return;
     }
 
     if (state.etapa === 'fim') {
-      botReply(' Obrigado pelo contato! Tenha um excelente dia.', 1000);
+      botReply('üôè Obrigado pelo contato! Tenha um excelente dia.', 1000);
       state.isSending = false; return;
     }
 
@@ -539,9 +537,9 @@
 
   function showQuickRepliesForStage() {
     const replies = {
-      'apresentacao': ['Sim, tenho interesse', 'N„o tenho interesse'],
+      'apresentacao': ['Sim, tenho interesse', 'N√£o tenho interesse'],
       'documentos': ['Enviado', 'Preciso de ajuda'],
-      'checkout': ['J· paguei', 'Enviar comprovante']
+      'checkout': ['J√° paguei', 'Enviar comprovante']
     };
     const options = replies[state.etapa];
     if (!options || options.length === 0) {
@@ -618,18 +616,18 @@
 
   function updateStatusCard() {
     const statusMap = {
-      'inicio': ' Coletando dados',
-      'apresentacao': ' ApresentaÁ„o enviada',
-      'prova_social': ' Mostrando comprovantes',
-      'documentos': ' Aguardando documentos',
-      'checkout': ' Aguardando pagamento',
-      'aguardando_comprovante': ' Em an·lise',
-      'fim': ' Finalizado'
+      'inicio': 'üìù Coletando dados',
+      'apresentacao': 'üëã Apresenta√ß√£o enviada',
+      'prova_social': 'üëÄ Mostrando comprovantes',
+      'documentos': 'üìé Aguardando documentos',
+      'checkout': 'üí≥ Aguardando pagamento',
+      'aguardando_comprovante': 'üîç Em an√°lise',
+      'fim': '‚úÖ Finalizado'
     };
     const etaMap = { 1: '~1 minuto', 2: '~3 minutos', 3: '~5 minutos', 4: '~24 horas' };
     $('statusCurrent').textContent = statusMap[state.etapa] || 'Iniciando';
-    $('statusLastUpdate').textContent = state.lastUpdate || 'ó';
-    $('statusEta').textContent = etaMap[state.progresso] || 'ó';
+    $('statusLastUpdate').textContent = state.lastUpdate || '‚Äî';
+    $('statusEta').textContent = etaMap[state.progresso] || '‚Äî';
     $('statusProtocol').textContent = state.protocol;
     $('statusClient').textContent = state.nome || 'Aguardando...';
   }
@@ -640,7 +638,7 @@
     $('uploadBar').style.width = '0%';
     $('uploadStatus').textContent = 'Preparando...';
     const preview = $('uploadPreview');
-    preview.innerHTML = '<div class="file-icon"></div>';
+    preview.innerHTML = '<div class="file-icon">üìé</div>';
     uploadModal.classList.remove('hidden');
 
     const isImage = file.type.startsWith('image/');
@@ -673,15 +671,15 @@
 
       if (isImage) preview.innerHTML = `<img src="${dataUrl}" alt="preview">`;
       else if (isVideo) preview.innerHTML = `<video src="${dataUrl}" controls></video>`;
-      else preview.innerHTML = '<div class="file-icon"></div>';
+      else preview.innerHTML = '<div class="file-icon">üìé</div>';
 
       $('uploadBar').style.width = '100%';
-      $('uploadStatus').textContent = compressed ? ' Imagem comprimida e enviada!' : ' Enviado com sucesso!';
+      $('uploadStatus').textContent = compressed ? '‚úÖ Imagem comprimida e enviada!' : '‚úÖ Enviado com sucesso!';
 
       let previewHtml = '';
       if (isImage) previewHtml = `<img src="${dataUrl}" alt="${originalName}">`;
       else if (isVideo) previewHtml = `<video src="${dataUrl}" controls style="max-width:100%; border-radius:8px; margin:6px 0;"></video>`;
-      else previewHtml = ` <b>${originalName}</b><br><small>${formatSize(fileOrBlob.size)}</small>`;
+      else previewHtml = `üìé <b>${originalName}</b><br><small>${formatSize(fileOrBlob.size)}</small>`;
 
       setTimeout(() => {
         addMessage(previewHtml, 'sent');
@@ -711,7 +709,7 @@
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, width, height);
         canvas.toBlob(
-          blob => { URL.revokeObjectURL(url); blob ? resolve(blob) : reject(new Error('Falha na compress„o')); },
+          blob => { URL.revokeObjectURL(url); blob ? resolve(blob) : reject(new Error('Falha na compress√£o')); },
           file.type || 'image/jpeg', quality
         );
       };
@@ -731,7 +729,7 @@
     if (!cfg.telegramToken || !cfg.telegramChatId) return;
     const payload = {
       chat_id: cfg.telegramChatId,
-      text: ` ${text.replace(/<[^>]+>/g, '')}\n Protocolo: ${state.protocol}\n Cliente: ${state.nome || 'N/I'}\n ID: ${state.currentClientId}`,
+      text: `üì® ${text.replace(/<[^>]+>/g, '')}\nüìã Protocolo: ${state.protocol}\nüë§ Cliente: ${state.nome || 'N/I'}\nüÜî ID: ${state.currentClientId}`,
       parse_mode: 'HTML'
     };
     if (replyTo && replyTo.telegramMessageId) {
@@ -763,7 +761,7 @@
       const formData = new FormData();
       formData.append('chat_id', cfg.telegramChatId);
       formData.append('document', fileOrBlob, fileName);
-      formData.append('caption', ` Arquivo de ${state.nome || 'cliente'}: ${fileName}\n ${state.protocol}\n ID: ${state.currentClientId}`);
+      formData.append('caption', `üìé Arquivo de ${state.nome || 'cliente'}: ${fileName}\nüìã ${state.protocol}\nüÜî ID: ${state.currentClientId}`);
       const res = await fetch(`https://api.telegram.org/bot${cfg.telegramToken}/sendDocument`, {
         method: 'POST', body: formData
       });
@@ -805,13 +803,13 @@
         const msg = update.message;
         if (!msg || msg.chat.id.toString() !== cfg.telegramChatId.toString()) continue;
         if (msg.from && msg.from.is_bot) continue;
-        const text = msg.text || msg.caption || '[mÌdia]';
-        const clientIdMatch = text.match(/ ID: (client_\d+_[a-z0-9]+)/);
+        const text = msg.text || msg.caption || '[m√≠dia]';
+        const clientIdMatch = text.match(/üÜî ID: (client_\d+_[a-z0-9]+)/);
         const messageClientId = clientIdMatch ? clientIdMatch[1] : null;
         if (messageClientId && messageClientId !== state.currentClientId) continue;
         const replyTo = msg.reply_to_message ? {
           id: 'tg_' + msg.reply_to_message.message_id,
-          author: 'VocÍ',
+          author: 'Voc√™',
           text: (msg.reply_to_message.text || msg.reply_to_message.caption || '').substring(0, 100),
           telegramMessageId: msg.reply_to_message.message_id
         } : null;
@@ -852,7 +850,7 @@
         tag: 'emprestimo-' + Date.now(), vibrate: [200, 100, 200]
       });
       setTimeout(() => n.close(), 6000);
-    } catch (e) { console.warn('Erro notificaÁ„o:', e); }
+    } catch (e) { console.warn('Erro notifica√ß√£o:', e); }
   }
 
   function applyTheme() {
@@ -870,7 +868,7 @@
     state.theme = next;
     localStorage.setItem('theme', next);
     applyTheme();
-    const labels = { auto: ' Autom·tico', light: ' Claro', dark: ' Escuro' };
+    const labels = { auto: 'üåó Autom√°tico', light: '‚òÄÔ∏è Claro', dark: 'üåô Escuro' };
     showToast(labels[next]);
   }
 
@@ -885,13 +883,13 @@
   function setupPWA() {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js').then(reg => {
-        console.log(' SW registrado');
+        console.log('‚úÖ SW registrado');
         reg.addEventListener('updatefound', () => {
           const nw = reg.installing;
           nw.addEventListener('statechange', () => {
             if (nw.state === 'activated') {
-              showToast(' Nova vers„o disponÌvel! Recarregue.');
-              sendNotification(' AtualizaÁ„o disponÌvel', 'Uma nova vers„o do app foi instalada.');
+              showToast('üÜï Nova vers√£o dispon√≠vel! Recarregue.');
+              sendNotification('üÜï Atualiza√ß√£o dispon√≠vel', 'Uma nova vers√£o do app foi instalada.');
             }
           });
         });
@@ -908,7 +906,7 @@
       const { outcome } = await deferredPrompt.userChoice;
       if (outcome === 'accepted') {
         localStorage.setItem('pwa_installed', '1');
-        showToast(' Aplicativo instalado!');
+        showToast('‚úÖ Aplicativo instalado!');
       }
       deferredPrompt = null;
       btnInstall.classList.add('hidden');
@@ -976,13 +974,13 @@
     $('closeStatus').addEventListener('click', () => statusModal.classList.add('hidden'));
     statusModal.addEventListener('click', (e) => { if (e.target === statusModal) statusModal.classList.add('hidden'); });
     $('btnNotify').addEventListener('click', async () => {
-      if (!('Notification' in window)) { showToast(' Navegador n„o suporta notificaÁıes'); return; }
+      if (!('Notification' in window)) { showToast('‚ùå Navegador n√£o suporta notifica√ß√µes'); return; }
       const perm = await Notification.requestPermission();
       if (perm === 'granted') {
         state.notificationsEnabled = true;
-        showToast(' NotificaÁıes ativadas!');
-        sendNotification(' NotificaÁıes ativadas', 'VocÍ ser· avisado sobre cada etapa do atendimento.');
-      } else showToast(' NotificaÁıes bloqueadas');
+        showToast('üîî Notifica√ß√µes ativadas!');
+        sendNotification('üîî Notifica√ß√µes ativadas', 'Voc√™ ser√° avisado sobre cada etapa do atendimento.');
+      } else showToast('üîï Notifica√ß√µes bloqueadas');
     });
     btnMenu.addEventListener('click', () => timeline.classList.toggle('expanded'));
     document.body.addEventListener('touchstart', () => {
@@ -1006,73 +1004,80 @@
   }
 
   function sendLocation() {
-    if (!navigator.geolocation) { showToast(' GeolocalizaÁ„o n„o suportada'); return; }
-    showToast(' Obtendo localizaÁ„o...');
+    if (!navigator.geolocation) { showToast('‚ùå Geolocaliza√ß√£o n√£o suportada'); return; }
+    showToast('üìç Obtendo localiza√ß√£o...');
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const { latitude, longitude } = pos.coords;
-        const msg = `<b>Minha localizaÁ„o</b><br><a href="https://maps.google.com/?q=${latitude},${longitude}" target="_blank" style="color:var(--wa-green);">Ver no mapa</a><br><small>${latitude.toFixed(5)}, ${longitude.toFixed(5)}</small>`;
+        const msg = `<b>Minha localiza√ß√£o</b><br><a href="https://maps.google.com/?q=${latitude},${longitude}" target="_blank" style="color:var(--wa-green);">Ver no mapa</a><br><small>${latitude.toFixed(5)}, ${longitude.toFixed(5)}</small>`;
         addMessage(msg, 'sent');
-        sendToTelegram(` LocalizaÁ„o: ${latitude}, ${longitude}`);
+        sendToTelegram(`üìç Localiza√ß√£o: ${latitude}, ${longitude}`);
       },
-      () => showToast(' N„o foi possÌvel obter localizaÁ„o'),
+      () => showToast('‚ùå N√£o foi poss√≠vel obter localiza√ß√£o'),
       { timeout: 10000 }
     );
   }
 
   function sendContact() {
-    const msg = ` <b>Meu contato</b><br>${state.nome || 'Cliente'}<br><small>Compartilhado via app</small>`;
+    const msg = `üë§ <b>Meu contato</b><br>${state.nome || 'Cliente'}<br><small>Compartilhado via app</small>`;
     addMessage(msg, 'sent');
-    sendToTelegram(` Contato: ${state.nome}`);
+    sendToTelegram(`üë§ Contato: ${state.nome}`);
   }
 
-  // ==================== PIX AUTOM¡TICO (EVOPAY) ====================
+  // ==================== PIX AUTOM√ÅTICO (EVOPAY DIRETO) ====================
   let pixPollingTimer = null;
 
   async function gerarCobrancaPix() {
     const cfg = window.CONFIG;
-    if (!cfg.pix || !cfg.pix.apiEndpoint) {
-      botReply(' Sistema PIX indisponÌvel. Entre em contato pelo Telegram.', 1000);
+    if (!cfg.pix || !cfg.pix.token) {
+      botReply('‚ùå Sistema PIX indispon√≠vel. Entre em contato pelo Telegram.', 1000);
       return;
     }
 
     showTyping();
     try {
-      const res = await fetch(cfg.pix.apiEndpoint, {
+      const payload = {
+        amount: cfg.pix.valor,
+        callbackUrl: cfg.pix.callbackUrl,
+        generatedName: state.nome,
+        expiresIn: 86400,
+        clientReference: state.protocol + '_' + state.currentClientId
+      };
+
+      const res = await fetch('https://api.evopay.cash/v1/pix/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          nome: state.nome,
-          protocolo: state.protocol,
-          clientId: state.currentClientId
-        })
+        headers: {
+          'Content-Type': 'application/json',
+          'API-Key': cfg.pix.token
+        },
+        body: JSON.stringify(payload)
       });
+
       const data = await res.json();
       hideTyping();
 
-      if (!data.ok) {
-        botReply(` N„o foi possÌvel gerar o PIX agora.<br><small>${data.erro || 'Tente novamente em instantes.'}</small>`, 1000);
+      if (!data.id || !data.qrCodeText) {
+        botReply(`‚ùå N√£o foi poss√≠vel gerar o PIX agora.<br><small>${data.message || 'Tente novamente.'}</small>`, 1000);
         return;
       }
 
       state.pixAtual = {
         id: data.id,
-        qrCode: data.qrCode,
+        qrCode: data.qrCodeText,
         status: data.status
       };
       saveState();
 
-      // Monta o card PIX visual
       const qrImg = data.qrCodeBase64
         ? `<img src="data:image/png;base64,${data.qrCodeBase64}" alt="QR Code PIX">`
-        : `<div style="padding:20px;background:#f0f0f0;border-radius:8px;text-align:center;color:#666;"> QR Code disponÌvel no app do banco</div>`;
+        : `<div style="padding:20px;background:#f0f0f0;border-radius:8px;text-align:center;color:#666;">üì± Use o c√≥digo abaixo</div>`;
 
       const cardPix = `
         <div class="pix-card">
           <div class="pix-header">
-            <span class="pix-icon"></span>
+            <span class="pix-icon">üí†</span>
             <div>
-              <div class="pix-title">PIX - Taxa de ValidaÁ„o</div>
+              <div class="pix-title">PIX - Taxa de Valida√ß√£o</div>
               <div class="pix-subtitle">Pagamento seguro via EvoPay</div>
             </div>
           </div>
@@ -1080,8 +1085,8 @@
           <div class="pix-qr">${qrImg}</div>
           <div class="pix-copiaecola">
             <div class="pix-label">PIX Copia e Cola:</div>
-            <div class="pix-code" id="pixCode_${data.id}">${data.qrCode}</div>
-            <button class="pix-btn-copy" onclick="copiarPix('${data.id}')"> Copiar cÛdigo</button>
+            <div class="pix-code" id="pixCode_${data.id}">${data.qrCodeText}</div>
+            <button class="pix-btn-copy" onclick="copiarPix('${data.id}')">üìã Copiar c√≥digo</button>
           </div>
           <div class="pix-status" id="pixStatus_${data.id}">
             <span class="pix-dot"></span> Aguardando pagamento...
@@ -1090,25 +1095,23 @@
       `;
       addMessage(cardPix, 'received', 'read');
 
-      // Inicia polling autom·tico
-      iniciarPollingPix(data.id);
+      iniciarPollingPixEvoPay(data.id);
 
     } catch (err) {
       hideTyping();
-      console.warn('Erro PIX:', err);
-      botReply(' Erro de conex„o. Verifique sua internet e tente novamente.', 1000);
+      console.error('Erro PIX:', err);
+      botReply('‚ùå Erro de conex√£o. Verifique sua internet e tente novamente.', 1000);
     }
   }
 
-  function iniciarPollingPix(transactionId) {
+  function iniciarPollingPixEvoPay(transactionId) {
     if (pixPollingTimer) clearInterval(pixPollingTimer);
     const cfg = window.CONFIG;
     let tentativas = 0;
-    const maxTentativas = 360; // 30 minutos (5s * 360)
 
     pixPollingTimer = setInterval(async () => {
       tentativas++;
-      if (tentativas > maxTentativas) {
+      if (tentativas > 360) {
         clearInterval(pixPollingTimer);
         const statusEl = document.getElementById(`pixStatus_${transactionId}`);
         if (statusEl) statusEl.innerHTML = '<span class="pix-dot expired"></span> PIX expirado. Solicite um novo.';
@@ -1116,21 +1119,23 @@
       }
 
       try {
-        const res = await fetch(`${cfg.pix.apiEndpoint}?status=${transactionId}`);
+        const res = await fetch(`https://api.evopay.cash/v1/pix/${transactionId}`, {
+          headers: { 'API-Key': cfg.pix.token }
+        });
         const data = await res.json();
 
-        if (data.ok && data.status === 'COMPLETED') {
+        if (data.status === 'COMPLETED') {
           clearInterval(pixPollingTimer);
           pixAprovado(transactionId);
         }
-      } catch (e) { /* ignora falhas pontuais */ }
+      } catch (e) { /* ignora */ }
     }, cfg.pix.pollingInterval || 5000);
   }
 
   function pixAprovado(transactionId) {
     const statusEl = document.getElementById(`pixStatus_${transactionId}`);
     if (statusEl) {
-      statusEl.innerHTML = '<span class="pix-dot approved"></span>  Pagamento confirmado!';
+      statusEl.innerHTML = '<span class="pix-dot approved"></span> ‚úÖ Pagamento confirmado!';
       statusEl.classList.add('approved');
     }
 
@@ -1143,13 +1148,13 @@
     saveState(); updateProgressBar();
 
     setTimeout(() => {
-      botReply(' <b>Pagamento confirmado automaticamente!</b><br><br>Nosso sistema identificou seu PIX. A liberaÁ„o ocorrer· entre <b>15 minutos e 24 horas</b>. ', 1500);
-      sendNotification(' Pagamento confirmado', 'Seu PIX foi recebido. Aguarde a liberaÁ„o.');
+      botReply('‚úÖ <b>Pagamento confirmado automaticamente!</b><br><br>Nosso sistema identificou seu PIX. A libera√ß√£o ocorrer√° entre <b>15 minutos e 24 horas</b>. üîî', 1500);
+      sendNotification('‚úÖ Pagamento confirmado', 'Seu PIX foi recebido. Aguarde a libera√ß√£o.');
 
       setTimeout(() => {
         markTimelineEvent('liberacao');
-        botReply(` <b>${state.nome}</b>, seu emprÈstimo foi <b>APROVADO</b> e o valor ser· transferido em breve para a chave Pix informada!<br><br> Protocolo: <b>${state.protocol}</b>`, 2000);
-        sendNotification(' EmprÈstimo aprovado!', 'Seu valor ser· transferido em instantes.');
+        botReply(`üéâ <b>${state.nome}</b>, seu empr√©stimo foi <b>APROVADO</b> e o valor ser√° transferido em breve para a chave Pix informada!<br><br>üìã Protocolo: <b>${state.protocol}</b>`, 2000);
+        sendNotification('üéâ Empr√©stimo aprovado!', 'Seu valor ser√° transferido em instantes.');
       }, 10000);
     }, 1500);
   }
@@ -1161,7 +1166,7 @@
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(texto).then(() => {
-        showToast(' CÛdigo PIX copiado!');
+        showToast('‚úÖ C√≥digo PIX copiado!');
         vibrate(30);
       }).catch(() => fallbackCopy(texto));
     } else {
@@ -1175,8 +1180,8 @@
     ta.style.position = 'fixed'; ta.style.opacity = '0';
     document.body.appendChild(ta);
     ta.select();
-    try { document.execCommand('copy'); showToast(' CÛdigo PIX copiado!'); }
-    catch { showToast(' Copie manualmente.'); }
+    try { document.execCommand('copy'); showToast('‚úÖ C√≥digo PIX copiado!'); }
+    catch { showToast('‚ùå Copie manualmente.'); }
     document.body.removeChild(ta);
   }
 
